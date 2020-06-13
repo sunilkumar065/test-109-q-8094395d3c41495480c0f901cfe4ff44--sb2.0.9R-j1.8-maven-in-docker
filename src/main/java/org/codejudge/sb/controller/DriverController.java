@@ -18,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,7 +41,7 @@ public class DriverController {
     @ApiOperation("Register a new driver")
     @PostMapping("/driver/register/")
     @ResponseStatus(HttpStatus.CREATED)
-    public DriverResponseDto registerDriver(@RequestBody @Valid DriverRequestDto driverDto) {
+    public DriverResponseDto registerDriver(@RequestBody @Validated DriverRequestDto driverDto) {
     	log.info("New driver registration started");
     	Driver newDriver = driverService.createDriver(driverDto);
     	log.info("Driver created with id={}", newDriver.getId());
@@ -56,7 +58,7 @@ public class DriverController {
     @ApiOperation("Update the location of driver with id")
     @PostMapping("/driver/{id}/sendLocation/")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public SuccessResponse updateDriverLocation(@RequestBody LocationRequestDto locationRequest, @PathVariable Long id) {
+    public SuccessResponse updateDriverLocation(@RequestBody @Valid LocationRequestDto locationRequest, @PathVariable Long id) {
     	log.info("Updating driver cab location");
     	driverService.updateDriverLocation(locationRequest, id);
     	SuccessResponse response = new SuccessResponse();
@@ -66,7 +68,7 @@ public class DriverController {
 
     @ApiOperation("Get all cabs within a radius of 4 KM")
     @PostMapping("/passenger/available_cabs/")
-    public ResponseEntity<?> getAvailableCabs(@RequestBody LocationRequestDto locationRequest) {
+    public ResponseEntity<?> getAvailableCabs(@RequestBody @Valid LocationRequestDto locationRequest) {
     	List<AvailableCabs> cabs = driverService.getNearbyCabs(locationRequest);
     	if(cabs.size() == 0) {
     		log.info("No cabs found");
@@ -76,5 +78,10 @@ public class DriverController {
     	cabResponse.setAvailableCabs(cabs);
     	log.info("No of cabs found near by={}",cabs.size());
     	return new ResponseEntity<CabResponse>(cabResponse,HttpStatus.OK);
+    }
+    
+    @GetMapping("drivers/")
+    public List<Driver> getAllDrivers() {
+    	return driverService.getAllDrivers();
     }
 }

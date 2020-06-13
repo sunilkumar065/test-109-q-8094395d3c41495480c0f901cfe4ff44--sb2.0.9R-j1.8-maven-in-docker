@@ -1,6 +1,6 @@
 package org.codejudge.sb.dto;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 public class LocationRequestDto {
 
-	@NotBlank
+	@NotNull(message="Latitude cannot be null")
 	private Double latitude;
 	
-	@NotBlank
+	@NotNull(message="Longitude cannot be null")
 	private Double longitude;
 }

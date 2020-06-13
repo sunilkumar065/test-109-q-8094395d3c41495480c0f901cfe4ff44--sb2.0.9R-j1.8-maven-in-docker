@@ -2,6 +2,7 @@ package org.codejudge.sb.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.codejudge.sb.annotation.ValidPhoneNumber;
 
@@ -25,6 +26,7 @@ public class DriverRequestDto {
 
 	@ValidPhoneNumber
 	@JsonProperty("phone_number")
+	@NotNull
 	private Long mobile;
 	
 	@NotBlank

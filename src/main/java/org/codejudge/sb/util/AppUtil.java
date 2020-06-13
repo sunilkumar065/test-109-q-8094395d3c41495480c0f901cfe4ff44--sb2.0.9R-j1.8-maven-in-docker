@@ -4,8 +4,8 @@ public class AppUtil {
 
 	public static Double findDistance(Double srcLatitude, Double srcLongitude, Double destLatitude, Double destLongitude) {
 		double lat1 = Math.toRadians(srcLatitude.doubleValue());
-		double lat2 = Math.toRadians(destLatitude.doubleValue());
 		double long1 = Math.toRadians(srcLongitude.doubleValue());
+		double lat2 = Math.toRadians(destLatitude.doubleValue());
 		double long2 = Math.toRadians(destLongitude.doubleValue());
 		
 		double dlon = long1-long2;

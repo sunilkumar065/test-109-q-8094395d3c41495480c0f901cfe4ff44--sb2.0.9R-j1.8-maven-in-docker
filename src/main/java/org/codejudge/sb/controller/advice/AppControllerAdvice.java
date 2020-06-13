@@ -2,6 +2,7 @@ package org.codejudge.sb.controller.advice;
 
 import org.codejudge.sb.exception.ApiError;
 import org.codejudge.sb.exception.DriverAlreadyExistsException;
+import org.codejudge.sb.exception.DriverNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +37,11 @@ public class AppControllerAdvice extends ResponseEntityExceptionHandler{
 		});
 		ApiError apiError = new ApiError(sb.toString());
 		return new ResponseEntity<Object>(apiError,HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler({DriverNotFoundException.class})
+	public ResponseEntity<Object> handleNotFoundException(DriverNotFoundException ex, WebRequest webRequest) {
+		ApiError error = new ApiError(ex.getLocalizedMessage());
+		return new ResponseEntity<Object>(error,HttpStatus.NOT_FOUND);
 	}
 }

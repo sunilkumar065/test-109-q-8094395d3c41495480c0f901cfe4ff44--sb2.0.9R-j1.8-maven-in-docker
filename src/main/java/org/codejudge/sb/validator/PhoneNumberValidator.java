@@ -12,6 +12,9 @@ public class PhoneNumberValidator implements ConstraintValidator<ValidPhoneNumbe
 
 	@Override
 	public boolean isValid(Long phone, ConstraintValidatorContext context) {
+		if(phone == null) {
+			return false;
+		}
 		String strVal = phone.toString();
 		Pattern pattern = Pattern.compile("\\d{10}");
 		Matcher match = pattern.matcher(strVal);

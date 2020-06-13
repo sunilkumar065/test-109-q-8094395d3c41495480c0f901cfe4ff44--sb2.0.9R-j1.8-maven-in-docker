@@ -8,10 +8,10 @@ import org.codejudge.sb.dto.AvailableCabs;
 import org.codejudge.sb.dto.DriverRequestDto;
 import org.codejudge.sb.dto.LocationRequestDto;
 import org.codejudge.sb.exception.DriverAlreadyExistsException;
+import org.codejudge.sb.exception.DriverNotFoundException;
 import org.codejudge.sb.model.Driver;
 import org.codejudge.sb.repository.DriverRepository;
 import org.codejudge.sb.util.AppUtil;
-import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,20 +59,30 @@ public class DriverService {
 			driverObj.setLatitude(locationDto.getLatitude());
 			driverRepository.save(driverObj);
 		}
+		else {
+			throw new DriverNotFoundException(String.format("No driver with id %s found", id)); 
+		}
 	}
 	
 	public List<AvailableCabs> getNearbyCabs(LocationRequestDto locationDto) {
 		log.info("Fetching all cabs");
 		List<Driver> drivers = driverRepository.findAll();
 		List<AvailableCabs> cabs = new ArrayList<>();
-		drivers.stream().forEach(driver -> {
+		log.info("Total cabs={}",drivers.size());
+		for(Driver driver: drivers ) {
+			log.info("{} {} {} {} {}",driver.getName(),locationDto.getLatitude(),locationDto.getLongitude(),
+					driver.getLatitude(), driver.getLongitude());
 			Double d = AppUtil.findDistance(locationDto.getLatitude(),locationDto.getLongitude(),
 					driver.getLatitude(), driver.getLongitude());
-			if(d.compareTo(new Double(4)) < 0) {
+			if(d.compareTo(new Double(4)) <= 0) {
 				cabs.add(new AvailableCabs(driver.getName(),driver.getCarNo(),driver.getMobile()));
 			}
-		});
+		}
 		return cabs;
+	}
+	
+	public List<Driver> getAllDrivers() {
+		return driverRepository.findAll();
 	}
 	
 }
