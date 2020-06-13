@@ -3,6 +3,8 @@ package org.codejudge.sb.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import org.codejudge.sb.annotation.ValidPhoneNumber;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
@@ -21,9 +23,9 @@ public class DriverRequestDto {
 	@JsonProperty("email")
 	private String email;
 
-	@NotBlank
+	@ValidPhoneNumber
 	@JsonProperty("phone_number")
-	private String mobile;
+	private Long mobile;
 	
 	@NotBlank
 	@JsonProperty("license_number")

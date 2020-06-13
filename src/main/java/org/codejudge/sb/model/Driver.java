@@ -25,7 +25,7 @@ public class Driver {
 	private String name;
 	
 	@Column(name="MBL",unique=true,nullable=false)
-	private String mobile;
+	private Long mobile;
 	
 	@Column(name="EML",unique=true,nullable=false)
 	private String email;
@@ -37,8 +37,8 @@ public class Driver {
 	private String carNo;
 	
 	@Column(name="LAT")
-	private double laitude;
+	private Double latitude;
 	
 	@Column(name="LONG")
-	private double longitude;
+	private Double longitude;
 }
