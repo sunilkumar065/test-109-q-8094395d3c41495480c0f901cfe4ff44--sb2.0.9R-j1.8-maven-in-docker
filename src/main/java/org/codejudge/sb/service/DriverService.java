@@ -70,10 +70,12 @@ public class DriverService {
 		List<AvailableCabs> cabs = new ArrayList<>();
 		log.info("Total cabs={}",drivers.size());
 		for(Driver driver: drivers ) {
-			Double d = AppUtil.findDistance(locationDto.getLatitude(),locationDto.getLongitude(),
-					driver.getLatitude(), driver.getLongitude());
-			if(d.compareTo(new Double(4)) <= 0) {
-				cabs.add(new AvailableCabs(driver.getName(),driver.getCarNo(),driver.getMobile()));
+			if(driver.getLatitude() != null && driver.getLongitude() != null) {
+				Double d = AppUtil.findDistance(locationDto.getLatitude(),locationDto.getLongitude(),
+						driver.getLatitude(), driver.getLongitude());
+				if(d.compareTo(new Double(4)) <= 0) {
+					cabs.add(new AvailableCabs(driver.getName(),driver.getCarNo(),driver.getMobile()));
+				}
 			}
 		}
 		return cabs;
