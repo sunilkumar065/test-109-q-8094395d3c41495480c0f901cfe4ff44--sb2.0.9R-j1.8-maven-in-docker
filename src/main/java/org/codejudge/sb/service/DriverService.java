@@ -7,9 +7,11 @@ import java.util.Optional;
 import org.codejudge.sb.dto.AvailableCabs;
 import org.codejudge.sb.dto.DriverRequestDto;
 import org.codejudge.sb.dto.LocationRequestDto;
+import org.codejudge.sb.exception.DriverAlreadyExistsException;
 import org.codejudge.sb.model.Driver;
 import org.codejudge.sb.repository.DriverRepository;
 import org.codejudge.sb.util.AppUtil;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +25,30 @@ public class DriverService {
 	@Autowired
 	private DriverRepository driverRepository;
 	
-	public Driver createDriver(DriverRequestDto driverRequest) {
+	public Driver createDriver(DriverRequestDto driverRequest) throws DriverAlreadyExistsException {
 		Driver driver = new Driver();
-		driver.setCarNo(driverRequest.getCarNo());
-		driver.setLicenseNo(driverRequest.getLicenseNo());
-		driver.setName(driverRequest.getName());
-		driver.setEmail(driverRequest.getEmail());
-		driver.setMobile(driverRequest.getMobile());
-		return driverRepository.save(driver);
+		Optional<Driver> driverMobile = driverRepository.findByMobile(driverRequest.getMobile());
+		Optional<Driver> driverCarNo = driverRepository.findByCarNo(driverRequest.getCarNo());
+		Optional<Driver> driverLicenseNo = driverRepository.findByLicenseNo(driverRequest.getLicenseNo());
+		Optional<Driver> driverEmail = driverRepository.findByEmail(driverRequest.getEmail());
+		
+		if(driverMobile.isPresent()) {
+			throw new DriverAlreadyExistsException("Phone number already registered");
+		} else if(driverCarNo.isPresent()) {
+			throw new DriverAlreadyExistsException("Car number number already registered");
+		}else if(driverLicenseNo.isPresent()) {
+			throw new DriverAlreadyExistsException("License number already registered");
+		}else if(driverEmail.isPresent()) {
+			throw new DriverAlreadyExistsException("Email already registered");
+		}else {
+			driver.setCarNo(driverRequest.getCarNo());
+			driver.setLicenseNo(driverRequest.getLicenseNo());
+			driver.setName(driverRequest.getName());
+			driver.setEmail(driverRequest.getEmail());
+			driver.setMobile(driverRequest.getMobile());
+			return driverRepository.save(driver);
+		}
+
 	}
 	
 	public void updateDriverLocation(LocationRequestDto locationDto, Long id) {

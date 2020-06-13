@@ -40,7 +40,9 @@ public class DriverController {
     @PostMapping("/driver/register/")
     @ResponseStatus(HttpStatus.CREATED)
     public DriverResponseDto registerDriver(@RequestBody @Valid DriverRequestDto driverDto) {
+    	log.info("New driver registration started");
     	Driver newDriver = driverService.createDriver(driverDto);
+    	log.info("Driver created with id={}", newDriver.getId());
     	DriverResponseDto driverResponse = new DriverResponseDto();
     	driverResponse.setId(newDriver.getId());
     	driverResponse.setEmail(newDriver.getEmail());
@@ -55,6 +57,7 @@ public class DriverController {
     @PostMapping("/driver/{id}/sendLocation/")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public SuccessResponse updateDriverLocation(@RequestBody LocationRequestDto locationRequest, @PathVariable Long id) {
+    	log.info("Updating driver cab location");
     	driverService.updateDriverLocation(locationRequest, id);
     	SuccessResponse response = new SuccessResponse();
     	response.setStatus("success");
