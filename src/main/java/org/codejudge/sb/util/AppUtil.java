@@ -12,7 +12,7 @@ public class AppUtil {
 		double dlat = lat1-lat2;
 		
 		double a = Math.pow(Math.sin(dlat / 2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon / 2),2);
-		double c = 2 * Math.asin(Math.sqrt(a)); 
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 		return Double.valueOf(c*6371);
 	}
 }
