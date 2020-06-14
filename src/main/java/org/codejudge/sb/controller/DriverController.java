@@ -70,14 +70,14 @@ public class DriverController {
     @PostMapping("/passenger/available_cabs/")
     public ResponseEntity<?> getAvailableCabs(@RequestBody @Valid LocationRequestDto locationRequest) {
     	List<AvailableCabs> cabs = driverService.getNearbyCabs(locationRequest);
-    	if(cabs.size() == 0) {
+    	if(cabs.isEmpty()) {
     		log.info("No cabs found");
-    		return new ResponseEntity<NoCabResponse>(new NoCabResponse("No cabs available!"),HttpStatus.OK);
+    		return new ResponseEntity<>(new NoCabResponse("No cabs available!"),HttpStatus.OK);
     	}
     	CabResponse cabResponse = new CabResponse();
     	cabResponse.setAvailableCabs(cabs);
     	log.info("No of cabs found near by={}",cabs.size());
-    	return new ResponseEntity<CabResponse>(cabResponse,HttpStatus.OK);
+    	return new ResponseEntity<>(cabResponse,HttpStatus.OK);
     }
     
     @GetMapping("drivers/")

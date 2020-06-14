@@ -1,6 +1,8 @@
 package org.codejudge.sb.util;
 
 public class AppUtil {
+	
+	private AppUtil() {}
 
 	public static Double findDistance(Double srcLatitude, Double srcLongitude, Double destLatitude, Double destLongitude) {
 		double lat1 = Math.toRadians(srcLatitude.doubleValue());

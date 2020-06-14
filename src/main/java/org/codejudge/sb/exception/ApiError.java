@@ -6,8 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ApiError {
-
-	private final String status = "failure";
+	
+	private String status = "failure";
 	private String reason;
 	
 	public ApiError(String reason) {
