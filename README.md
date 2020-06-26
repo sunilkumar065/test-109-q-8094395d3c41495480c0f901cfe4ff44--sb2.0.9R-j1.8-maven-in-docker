@@ -14,4 +14,4 @@ PROJECT START STEPS:
         1.c. Run the following command(s) in the terminal/command line to run the app:
             - java -jar ./target/spring-boot-in-docker.jar
 
-    2. Go to http://localhost:8080/ in your browser to view it.
+    2. Go to http://localhost:8080/swagger-ui.html in your browser to view it.

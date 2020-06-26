@@ -25,7 +25,7 @@ public class DriverService {
 	@Autowired
 	private DriverRepository driverRepository;
 	
-	public Driver createDriver(DriverRequestDto driverRequest) throws DriverAlreadyExistsException {
+	public Driver createDriver(DriverRequestDto driverRequest) {
 		Driver driver = new Driver();
 		Optional<Driver> driverMobile = driverRepository.findByMobile(driverRequest.getMobile());
 		Optional<Driver> driverCarNo = driverRepository.findByCarNo(driverRequest.getCarNo());
@@ -73,7 +73,7 @@ public class DriverService {
 			if(driver.getLatitude() != null && driver.getLongitude() != null) {
 				Double d = AppUtil.findDistance(locationDto.getLatitude(),locationDto.getLongitude(),
 						driver.getLatitude(), driver.getLongitude());
-				if(d.compareTo(new Double(4)) <= 0) {
+				if(d.compareTo(Double.valueOf(4)) <= 0) {
 					cabs.add(new AvailableCabs(driver.getName(),driver.getCarNo(),driver.getMobile()));
 				}
 			}

@@ -80,6 +80,7 @@ public class DriverController {
     	return new ResponseEntity<>(cabResponse,HttpStatus.OK);
     }
     
+    @ApiOperation("Get all drivers")
     @GetMapping("drivers/")
     public List<Driver> getAllDrivers() {
     	return driverService.getAllDrivers();
